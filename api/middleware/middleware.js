@@ -10,8 +10,14 @@ function logger(req, res, next) {
   next()
 }
 
-function validateUserId(req, res, next) {
-  
+async function validateUserId(req, res, next) {
+  const { id } = req.params
+  const user = await Users.getById(id)
+  if (user) {
+    next()
+  } else {
+    next({ status: 404, message: "user not found" })
+  }
 }
 
 function validateUser(req, res, next) {
